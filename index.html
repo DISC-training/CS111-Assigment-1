@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Labels In Text</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        #input {
+            overflow: auto;
+            resize: none;
+            width: 100%;
+            height: 10rem;
+            border-radius: 0.25rem;
+        }
+        .container{
+            margin-top: 2rem;
+            position: relative;
+            width: 75%;
+            margin-left: 50%;
+            transform: translateX(-50%);
+        }
+        #submit{
+            display: inline-block;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 1rem;
+            background-color: white;
+            color: royalblue;
+            border: royalblue 1px solid;
+        }
+        #submit:hover{
+            background-color: royalblue;
+            color: white;
+            border: white 1px solid;
+        }
+        #submit:active{
+            background-color: rgb(44, 71, 155);
+            color: rgb(216, 216, 216);
+        }
+        .result{
+            text-align:center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <textarea id='input'></textarea>
+        <div style='text-align:center;'>
+            <button id='submit' onclick="getLabelsDetail()">Submit</button>
+        </div>
+        <div id='total' class="result"></div>
+        <div id='rate' class="result"></div>
+    </div>
+    <script src="./data.js"></script>
+    <script>
+        function getLabelsDetail(){
+            let text = document.getElementById('input').value;
+            let total = 0;
+            let labels = getLabels();
+                text.split(/[\s\n\!\@\.\,\(\)\#\$\%\^\-\=\+\~\`\{\}\|\[\]\"\"\'\'\<\>\?\/\\\_]+(?!=[\s\n\!\@\.\,\(\)\#\$\%\^\-\=\+\~\`\{\}\|\[\]\"\"\'\'\<\>\?\/\\\_])/g).forEach(label => {
+                    label = label.toUpperCase();
+                    if(labels[label] == 0){
+                        total++;
+                        labels[label]++;
+                    }
+                });
+            document.getElementById('total').innerText = `Have ${total} labels in list`;
+            document.getElementById('rate').innerText = `Percent: ${Math.round(total/70*1000)/1000}%`;
+        }
+    </script>
+</body>
+</html>
+
